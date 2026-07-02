@@ -1,0 +1,237 @@
+/* ==========================================================================
+   1. DESIGN TOKENS (Variáveis de Acessibilidade)
+   ========================================================================== */
+:root {
+    --bg-page: #f4f6f4;
+    --text-main: #1c281c;
+    --accent-green: #1e4620;    /* Verde escuro de altíssimo contraste (>= 7:1) */
+    --bg-card: #ffffff;
+    --border-color: #7a8a7a;
+    --focus-indicator: #0056b3;  /* Azul nítido para navegação por teclado */
+    
+    /* Cores dos Ecopontos adaptadas para contraste seguro */
+    --ecoponto-azul: #0044cc;
+    --ecoponto-verde: #006600;
+    --ecoponto-amarelo: #cc9900;
+}
+
+/* Suporte nativo a Alto Contraste do Sistema Operacional */
+@media (prefers-contrast: high) {
+    :root {
+        --bg-page: #ffffff;
+        --text-main: #000000;
+        --accent-green: #000000;
+        --bg-card: #ffffff;
+        --border-color: #000000;
+    }
+}
+
+/* Classe de Alto Contraste ativada por botão/script */
+body.high-contrast {
+    --bg-page: #000000;
+    --text-main: #ffffff;
+    --accent-green: #ffff00; /* Texto em amarelo para destacar no fundo preto */
+    --bg-card: #121212;
+    --border-color: #ffffff;
+    --focus-indicator: #00ffff;
+}
+
+/* Classes para controlo do tamanho da fonte via JS */
+body.font-large { font-size: 20px; }
+body.font-xlarge { font-size: 24px; }
+
+/* ==========================================================================
+   2. ACESSIBILIDADE E RESETS
+   ========================================================================== */
+* { 
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif; /* Fontes sem serifa facilitam a leitura */
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    line-height: 1.8;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Link de salto para teclado */
+.skip-to-content {
+    position: absolute;
+    top: -100px;
+    left: 15px;
+    background-color: var(--focus-indicator);
+    color: #ffffff;
+    padding: 12px 20px;
+    z-index: 1000;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.skip-to-content:focus {
+    top: 15px;
+    outline: 3px solid var(--text-main);
+}
+
+/* Esconder elementos mantendo a leitura para leitores de ecrã */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Indicador de foco global reforçado */
+*:focus-visible {
+    outline: 4px solid var(--focus-indicator) !important;
+    outline-offset: 4px;
+}
+
+/* ==========================================================================
+   3. ESTRUTURA DO LAYOUT
+   ========================================================================== */
+header {
+    background-color: var(--bg-card);
+    border-bottom: 4px solid var(--accent-green);
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+h1 {
+    color: var(--accent-green);
+    margin: 0;
+    font-size: 2rem;
+}
+
+/* Painel de Ferramentas de Acessibilidade */
+.accessibility-toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-panel {
+    background-color: var(--accent-green);
+    color: var(--bg-page);
+    border: 2px solid var(--accent-green);
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.btn-panel:hover {
+    filter: brightness(1.2);
+}
+
+main {
+    margin: 40px 0;
+}
+
+section {
+    margin-bottom: 50px;
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+h2 {
+    color: var(--accent-green);
+    font-size: 1.6rem;
+    margin-top: 0;
+    border-bottom: 3px solid var(--accent-green);
+    padding-bottom: 8px;
+}
+
+p {
+    max-width: 70ch; /* Limita caracteres por linha para evitar cansaço visual */
+    margin-bottom: 20px;
+}
+
+ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+ul li {
+    margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   4. ECOPONTOS (Blocos Acessíveis)
+   ========================================================================== */
+.ecoponto-box {
+    border-left: 10px solid var(--border-color);
+    padding: 15px 20px;
+    margin: 20px 0;
+    background-color: var(--bg-page);
+    border-radius: 0 8px 8px 0;
+}
+
+.ecoponto-box.azul { border-color: var(--ecoponto-azul); }
+.ecoponto-box.verde { border-color: var(--ecoponto-verde); }
+.ecoponto-box.amarelo { border-color: var(--ecoponto-amarelo); }
+
+.ecoponto-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
+
+.azul .ecoponto-title { color: var(--ecoponto-azul); }
+.verde .ecoponto-title { color: var(--ecoponto-verde); }
+.amarelo .ecoponto-title { color: var(--ecoponto-amarelo); }
+
+/* Garante legibilidade do título dos blocos no modo de alto contraste */
+body.high-contrast .ecoponto-title {
+    color: var(--text-main) !important;
+}
+
+/* ==========================================================================
+   5. RODAPÉ E RESPONSIVIDADE
+   ========================================================================== */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 2px solid var(--border-color);
+    background-color: var(--bg-card);
+    font-size: 0.95rem;
+}
+
+@media (max-width: 600px) {
+    .header-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .accessibility-toolbar {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    section {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consciência Verde - A Importância da Reciclagem</title>
+    <style>
+        /* ==========================================================================
+           1. DESIGN TOKENS (Variáveis de Acessibilidade)
+           ========================================================================== */
+        :root {
+            --bg-page: #f4f6f4;
+            --text-main: #1c281c;
+            --accent-green: #1e4620;    /* Verde escuro de altíssimo contraste (>= 7:1) */
+            --bg-card: #ffffff;
+            --border-color: #7a8a7a;
+            --focus-indicator: #0056b3;  /* Azul nítido para navegação por teclado */
+            
+            /* Cores dos Ecopontos adaptadas para contraste seguro */
+            --ecoponto-azul: #0044cc;
+            --ecoponto-verde: #006600;
+            --ecoponto-amarelo: #cc9900;
+        }
+
+        /* Suporte nativo a Alto Contraste do Sistema Operacional */
+        @media (prefers-contrast: high) {
+            :root {
+                --bg-page: #ffffff;
+                --text-main: #000000;
+                --accent-green: #000000;
+                --bg-card: #ffffff;
+                --border-color: #000000;
+            }
+        }
+
+        /* Classe de Alto Contraste ativada por botão */
+        body.high-contrast {
+            --bg-page: #000000;
+            --text-main: #ffffff;
+            --accent-green: #ffff00; /* Texto em amarelo para destacar no fundo preto */
+            --bg-card: #121212;
+            --border-color: #ffffff;
+            --focus-indicator: #00ffff;
+        }
+
+        /* Classes para controlo do tamanho da fonte */
+        body.font-large { font-size: 20px; }
+        body.font-xlarge { font-size: 24px; }
+
+        /* ==========================================================================
+           2. ACESSIBILIDADE E RESETS
+           ========================================================================== */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif; /* Fontes sem serifa facilitam a leitura */
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        /* Link de salto para teclado */
+        .skip-to-content {
+            position: absolute;
+            top: -100px;
+            left: 15px;
+            background-color: var(--focus-indicator);
+            color: #ffffff;
+            padding: 12px 20px;
+            z-index: 1000;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        .skip-to-content:focus {
+            top: 15px;
+            outline: 3px solid var(--text-main);
+        }
+
+        /* Esconder elementos mantendo a leitura para leitores de ecrã */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Indicador de foco global reforçado */
+        *:focus-visible {
+            outline: 4px solid var(--focus-indicator) !important;
+            outline-offset: 4px;
+        }
+
+        /* ==========================================================================
+           3. ESTRUTURA DO LAYOUT
+           ========================================================================== */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 4px solid var(--accent-green);
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        h1 {
+            color: var(--accent-green);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        /* Painel de Ferramentas de Acessibilidade */
+        .accessibility-toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-panel {
+            background-color: var(--accent-green);
+            color: var(--bg-page);
+            border: 2px solid var(--accent-green);
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        .btn-panel:hover {
+            filter: brightness(1.2);
+        }
+
+        main {
+            margin: 40px 0;
+        }
+
+        section {
+            margin-bottom: 50px;
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            color: var(--accent-green);
+            font-size: 1.6rem;
+            margin-top: 0;
+            border-bottom: 3px solid var(--accent-green);
+            padding-bottom: 8px;
+        }
+
+        p {
+            max-width: 70ch; /* Limita caracteres por linha para evitar cansaço visual */
+            margin-bottom: 20px;
+        }
+
+        /* ==========================================================================
+           4. ECOPONTOS (Blocos Acessíveis)
+           ========================================================================== */
+        .ecoponto-box {
+            border-left: 10px solid var(--border-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            background-color: var(--bg-page);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .ecoponto-box.azul { border-color: var(--ecoponto-azul); }
+        .ecoponto-box.verde { border-color: var(--ecoponto-verde); }
+        .ecoponto-box.amarelo { border-color: var(--ecoponto-amarelo); }
+
+        .ecoponto-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
+        .azul .ecoponto-title { color: var(--ecoponto-azul); }
+        .verde .ecoponto-title { color: var(--ecoponto-verde); }
+        .amarelo .ecoponto-title { color: var(--ecoponto-amarelo); }
+
+        body.high-contrast .ecoponto-title {
+            color: var(--text-main) !important;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 2px solid var(--border-color);
+            background-color: var(--bg-card);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#conteudo-principal" class="skip-to-content">Saltar para o conteúdo principal</a>
+
+    <header role="banner">
+        <div class="container header-layout">
+            <h1>Consciência Verde</h1>
+            
+            <div class="accessibility-toolbar" role="region" aria-label="Ferramentas de Acessibilidade">
+                <button id="toggle-contrast" class="btn-panel" aria-pressed="false">Alto Contraste</button>
+                <button id="increase-font" class="btn-panel" aria-label="Aumentar tamanho do texto">A+</button>
+                <button id="reset-font" class="btn-panel" aria-label="Restaurar tamanho do texto original">A-</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main id="conteudo-principal" role="main">
+            
+            <section id="introducao">
+                <h2>Por que a Reciclagem é Vital?</h2>
+                <p>
+                    A reciclagem é o processo de recolha e transformação de materiais que seriam deitados fora como lixo, transformando-os novamente em produtos úteis. Ela reduz significativamente a necessidade de extrair novas matérias-primas do planeta.
+                </p>
+                <p>
+                    Sem a reciclagem, os resíduos acumulam-se em aterros sanitários e oceanos, demorando centenas de anos para se decomporem e gerando graves crises na fauna e na flora global.
+                </p>
+            </section>
+
+            <section id="beneficios">
+                <h2>Os Impactos Diretos no Ecossistema</h2>
+                <p>Ao adotar o hábito de separar o seu lixo, está a contribuir ativamente para três fatores cruciais:</p>
+                <ul>
+                    <li><strong>Poupança de Energia:</strong> Fabricar alumínio reciclado consome cerca de 95% menos energia do que extrair e produzir alumínio novo a partir do minério original.</li>
+                    <li><strong>Redução do Aquecimento Global:</strong> Menos lixo a queimar ou a decompor-se incorretamente significa uma diminuição drástica nas emissões de gases poluentes na atmosfera.</li>
+                    <li><strong>Proteção dos Oceanos:</strong> A reciclagem correta do plástico impede que estes materiais fiquem presos em ecossistemas marítimos, salvando milhares de animais anualmente.</li>
+                </ul>
+            </section>
+
+            <section id="guia-ecoponto">
+                <h2>Guia Universal de Separação (Acessível)</h2>
+                <p>
+                    As cores dos contentores facilitam o descarte rápido, mas nem todos conseguem distingui-las da mesma forma. Abaixo encontra a separação exata explicada por escrito de forma clara:
+                </p>
+
+                <div class="ecoponto-box azul">
+                    <p class="ecoponto-title">
+                        <span class="sr-only">Ecoponto de cor </span>Azul (Papel e Cartão)
+                    </p>
+                    <p><strong>O que deve colocar:</strong> Jornais, caixas de papelão desfeitas, revistas, folhas de papel de rascunho e embalagens limpas.</p>
+                    <p><em>Evite colocar:</em> Fraldas, lenços de papel usados ou cartões com restos de comida ou gordura.</p>
+                </div>
+
+                <div class="ecoponto-box verde">
+                    <p class="ecoponto-title">
+                        <span class="sr-only">Ecoponto de cor </span>Verde (Vidro)
+                    </p>
+                    <p><strong>O que deve colocar:</strong> Garrafas de vidro de sumo, água ou vinho, frascos e boiões de conserva vazios.</p>
+                    <p><em>Evite colocar:</em> Lâmpadas, pratos de cerâmica, pirex, copos de vidro ou espelhos.</p>
+                </div>
+
+                <div class="ecoponto-box amarelo">
+                    <p class="ecoponto-title">
+                        <span class="sr-only">Ecoponto de cor </span>Amarelo (Plástico e Metal)
+                    </p>
+                    <p><strong>O que deve colocar:</strong> Pacotes de leite ou sumo, garrafas de plástico, latas de refrigerante, latas de conserva e sacos de plástico limpos.</p>
+                    <p><em>Evite colocar:</em> Eletrodomésticos, tachos e panelas velhas, baldes partidos ou produtos com substâncias tóxicas.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer role="contentinfo">
+        <p>&copy; 2026 Consciência Verde. Página planeada para uma leitura igualitária e totalmente inclusiva.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const btnContrast = document.getElementById('toggle-contrast');
+            const btnIncrease = document.getElementById('increase-font');
+            const btnReset = document.getElementById('reset-font');
+
+            // 1. Controlo de Alto Contraste
+            btnContrast.addEventListener('click', () => {
+                body.classList.toggle('high-contrast');
+                const hasContrast = body.classList.contains('high-contrast');
+                btnContrast.setAttribute('aria-pressed', hasContrast);
+            });
+
+            // 2. Controlo do Tamanho de Fonte (Escalonamento por cliques)
+            btnIncrease.addEventListener('click', () => {
+                if (!body.classList.contains('font-large') && !body.classList.contains('font-xlarge')) {
+                    body.classList.add('font-large');
+                } else if (body.classList.contains('font-large')) {
+                    body.classList.remove('font-large');
+                    body.classList.add('font-xlarge');
+                }
+            });
+
+            btnReset.addEventListener('click', () => {
+                body.classList.remove('font-large', 'font-xlarge');
+            });
+        });
+    </script>
+</body>
+</html>
